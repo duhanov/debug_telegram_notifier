@@ -20,9 +20,6 @@ class DebugTelegramNotifier:
 
         base_message = error_message or "Unknown error"
         message_with_prefix = self._with_app_prefix(base_message)
-        message_text = self._trim_text(message_with_prefix, 3000)
-        self._send_message(message_text)
-
         if traceback_text:
             file_text = f"error_message:\n{message_with_prefix}\n\ntraceback:\n{traceback_text}"
             self._send_text_file(
@@ -30,6 +27,10 @@ class DebugTelegramNotifier:
                 caption=self._trim_text(message_with_prefix, 900),
                 file_text=file_text,
             )
+            return
+
+        message_text = self._trim_text(message_with_prefix, 3000)
+        self._send_message(message_text)
 
     def _send_message(self, text: str) -> None:
         url = f"https://api.telegram.org/bot{self.token}/sendMessage"

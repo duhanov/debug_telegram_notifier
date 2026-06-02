@@ -17,18 +17,21 @@ class TelegramDebugHandler(logging.Handler):
 
         try:
             error_message, traceback_text = self._build_payload(record)
+            print(f"error_message: {error_message}")
+            print(f"traceback_text: {traceback_text}")
             self.notifier.send_error(error_message, traceback_text)
         except Exception:
             # Never break main flow because of debug notification failures.
             self.handleError(record)
 
     def _build_payload(self, record: logging.LogRecord) -> tuple[str, str]:
-        logger_name = record.name or "root"
-        level = record.levelname
-        message = record.getMessage()
-        error_message = f"[{level}] {logger_name}: {message}"
-
         traceback_text = ""
         if record.exc_info:
+            exc_type, exc_value, _ = record.exc_info
             traceback_text = "".join(traceback.format_exception(*record.exc_info))
+            error_message = f"{exc_type.__name__}: {exc_value}"
+            return error_message, traceback_text
+
+        # Fallback for log records without exception info.
+        error_message = record.getMessage()
         return error_message, traceback_text

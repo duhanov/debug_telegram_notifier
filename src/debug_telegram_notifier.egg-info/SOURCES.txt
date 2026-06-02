@@ -1,0 +1,9 @@
+README.md
+pyproject.toml
+src/debug_telegram_notifier/__init__.py
+src/debug_telegram_notifier/logging.py
+src/debug_telegram_notifier/notifier.py
+src/debug_telegram_notifier.egg-info/PKG-INFO
+src/debug_telegram_notifier.egg-info/SOURCES.txt
+src/debug_telegram_notifier.egg-info/dependency_links.txt
+src/debug_telegram_notifier.egg-info/top_level.txt
