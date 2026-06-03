@@ -3,6 +3,18 @@ import traceback
 
 from .notifier import DebugTelegramNotifier
 
+# Не слать в debug-бот шум от сканеров / неверного Host.
+_SKIP_LOGGERS = ("django.security.DisallowedHost",)
+
+
+def _record_should_skip(record: logging.LogRecord) -> bool:
+    print(f"record.name: {record.name}")
+    if record.name in _SKIP_LOGGERS:
+        print(f"SKIP LOG Error: {record.name}")
+        return True
+
+    return False
+
 
 class TelegramDebugHandler(logging.Handler):
     """Collects log data and delegates delivery to debug Telegram notifier."""
@@ -12,7 +24,7 @@ class TelegramDebugHandler(logging.Handler):
         self.notifier = DebugTelegramNotifier()
 
     def emit(self, record: logging.LogRecord) -> None:
-        if not self.notifier.enabled:
+        if not self.notifier.enabled or _record_should_skip(record):
             return
 
         try:
