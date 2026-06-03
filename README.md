@@ -1,8 +1,6 @@
 # debug-telegram-notifier
 
-Small package to forward application errors to a Telegram debug bot.
-
-## Django setup
+Package for Django (and any Python project using `logging`) that forwards **ERROR**-level log records to a dedicated Telegram debug bot.
 
 1. Install package (already configured in this repo via editable dependency):
 
