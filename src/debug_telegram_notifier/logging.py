@@ -8,7 +8,7 @@ _SKIP_LOGGERS = ("django.security.DisallowedHost",)
 
 
 def _record_should_skip(record: logging.LogRecord) -> bool:
-    print(f"record.name: {record.name}")
+    # print(f"record.name: {record.name}")
     if record.name in _SKIP_LOGGERS:
         print(f"SKIP LOG Error: {record.name}")
         return True
